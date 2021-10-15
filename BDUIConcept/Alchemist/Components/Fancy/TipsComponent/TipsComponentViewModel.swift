@@ -12,9 +12,8 @@ class TipsComponentViewModel: ViewModellable {
     let modelState: ModelState
 
     init(build: Build) {
-        modelState = ModelState(notificationHandler: build.notificationHandler,
-                                content: build.content,
-                                configuration: build.configuration)
+        modelState = ModelState(content: build.content,
+                                eventHandler: build.eventHandler)
     }
 
     func dispatchInputAction(_ action: InputAction) {
@@ -29,11 +28,7 @@ class TipsComponentViewModel: ViewModellable {
     }
 
     private func handleDidTapAmount(_ index: Int) {
-        let selectedItem = modelState.content.tips[index]
-        // Poder chequear los eventos y ver si para ese id hay algo y ejecutarlo
-        guard let events = modelState.configuration?.events, let event = events.filter({$0.targetId == index+1}).first else { return }
-
-        modelState.notificationHandler.broadcastNotification(notification: AlchemistLiteNotification(id: event.eventType, data: event.eventBody))
+        modelState.eventHandler.triggerEvent(trigger: .clicked, forId: index+1)
     }
 
     private func handleDidUpdateContent(_ content: TipsComponent.Content) {
@@ -52,16 +47,13 @@ extension TipsComponentViewModel {
     }
 
     class ModelState {
-        let notificationHandler: AlchemistLiteNotificationHandler
         var content: TipsComponent.Content
-        let configuration: AlchemistLiteEventConfiguration?
+        let eventHandler: AlchemistLiteEventManager
 
-        init(notificationHandler: AlchemistLiteNotificationHandler,
-             content: TipsComponent.Content,
-             configuration: AlchemistLiteEventConfiguration?) {
-            self.notificationHandler = notificationHandler
+        init(content: TipsComponent.Content,
+             eventHandler: AlchemistLiteEventManager) {
             self.content = content
-            self.configuration = configuration
+            self.eventHandler = eventHandler
         }
     }
 
@@ -75,7 +67,7 @@ extension TipsComponentViewModel {
 extension TipsComponentViewModel {
     struct Build {
         let content: TipsComponent.Content
-        let notificationHandler: AlchemistLiteNotificationHandler
-        let configuration: AlchemistLiteEventConfiguration?
+        let eventHandler: AlchemistLiteEventManager
+
     }
 }

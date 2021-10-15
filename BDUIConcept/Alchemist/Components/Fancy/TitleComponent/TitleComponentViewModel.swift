@@ -9,12 +9,12 @@ import Foundation
 
 class TitleComponentViewModel {
     private(set) var title: String
-    private(set) var notificationHandler: AlchemistLiteNotificationHandler
+    private(set) var notificationHandler: AlchemistLiteEventManager
     
     var onTitleUpdated: (() -> Void)?
     
     init(content: TitleComponent.Content,
-         handler: AlchemistLiteNotificationHandler) {
+         handler: AlchemistLiteEventManager) {
         self.title = content.title
         self.notificationHandler = handler
     }

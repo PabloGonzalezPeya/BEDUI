@@ -14,10 +14,10 @@ protocol AlchemistLiteUIComponent {
     
     var id: String { get }
     var type: String { get }
-    var notificationHandler: AlchemistLiteNotificationHandler { get }
+    var eventManager: AlchemistLiteEventManager { get }
     
     func getView() -> UIView
-    func updateView(data: Data)
+    func updateView(component: BEComponent)
     
     init(config: AlchemistLiteUIComponentConfiguration) throws
 }

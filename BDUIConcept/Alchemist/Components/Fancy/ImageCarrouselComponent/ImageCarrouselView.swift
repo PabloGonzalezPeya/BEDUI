@@ -19,9 +19,12 @@ class ImageCarrouselView: UIView, AlchemistLiteViewUpdatable {
     }()
     
     private let titleLabel = UILabel()
+    private let eventManager: AlchemistLiteEventManager
     
-    init(content: ImageCarrouselComponent.Content) {
+    init(content: ImageCarrouselComponent.Content,
+         eventManager: AlchemistLiteEventManager) {
         self.content = content
+        self.eventManager = eventManager
         super.init(frame: .zero)
         setupView()
     }
@@ -81,6 +84,10 @@ extension ImageCarrouselView: UICollectionViewDataSource {
 extension ImageCarrouselView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 160, height: 120)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        eventManager.triggerEvent(trigger: .clicked, forId: indexPath.row+1)
     }
 }
 

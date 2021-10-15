@@ -13,21 +13,16 @@ class TitleComponent: AlchemistLiteUIComponent {
     
     var id: String
     var type: String
-    var notificationHandler: AlchemistLiteNotificationHandler
     
     private(set) var content: Content
+    private(set) var eventManager: AlchemistLiteEventManager
     private var currentView: TitleComponentView?
     
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
-        self.id = config.component.id
-        self.type = config.component.type
-        guard let componentData = config.component.content else { throw AlchemistLiteError.componentDataMissing(component: TitleComponent.componentType)}
-        do {
-            self.content = try JSONDecoder().decode(Content.self, from: componentData)
-        } catch {
-            throw AlchemistLiteError.componentDataParsing(component: TitleComponent.componentType)
-        }
-        self.notificationHandler = config.notificationHandler
+        self.id = config.componentId
+        self.type = config.componentType
+        self.content = try config.parseContent()
+        self.eventManager = config.getEventManager()
     }
     
     func getView() -> UIView {
@@ -35,18 +30,21 @@ class TitleComponent: AlchemistLiteUIComponent {
             return viewtoReturn
         }
         let view = TitleComponentView(viewModel: TitleComponentViewModel(content: content,
-                                                                         handler: notificationHandler))
+                                                                         handler: eventManager))
         currentView = view
         return view
     }
     
-    func updateView(data: Data) {
+    func updateView(component: BEComponent) {
+        guard let data = component.content else { return }
         guard let updatedContent = try? JSONDecoder().decode(Content.self, from: data),
               updatedContent != self.content else {
                   print("No changes for \(TitleComponent.componentType)")
                   return
               }
         self.content = updatedContent
+        self.eventManager.update(eventConfiguration: component.eventConfiguration,
+                                 trackingEvents: component.trackingEvents)
         currentView?.update(withContent: updatedContent)
     }
 }

@@ -12,9 +12,8 @@ class AmountComponentViewModel: ViewModellable {
     let modelState: ModelState
 
     init(build: Build) {
-        modelState = ModelState(notificationHandler: build.notificationHandler,
-                                content: build.content,
-                                configuration: build.configuration)
+        modelState = ModelState(content: build.content,
+                                eventManager: build.eventManager)
         listenEventBusEvents()
     }
 
@@ -28,7 +27,7 @@ class AmountComponentViewModel: ViewModellable {
     }
 
     private func listenEventBusEvents() {
-        modelState.notificationHandler.onNotificationReceived = { [weak self] notification in
+        modelState.eventManager.onNotificationReceived = { [weak self] notification in
             self?.handleNotificationIfNeeded(notification)
         }
     }
@@ -36,8 +35,7 @@ class AmountComponentViewModel: ViewModellable {
     private func handleNotificationIfNeeded(_ notification: AlchemistLiteNotification) {
         switch notification.id {
         case "amountUpdated":
-            //print("Received amount updated in Detail component with payload \(notification.data)")
-            print("To exclude \(modelState.configuration?.origins)")
+            print("Received amount updated in Detail component with payload \(notification.data)")
         default:
             print("Nada!")
         }
@@ -64,17 +62,14 @@ extension AmountComponentViewModel {
     }
 
     class ModelState {
-        let notificationHandler: AlchemistLiteNotificationHandler
         var content: AmountComponent.Content
-        var configuration:AlchemistLiteEventConfiguration?
+        var eventManager: AlchemistLiteEventManager
         var currentValue: Double = 0
 
-        init(notificationHandler: AlchemistLiteNotificationHandler,
-             content: AmountComponent.Content,
-             configuration: AlchemistLiteEventConfiguration?) {
-            self.notificationHandler = notificationHandler
+        init(content: AmountComponent.Content,
+             eventManager: AlchemistLiteEventManager) {
             self.content = content
-            self.configuration = configuration
+            self.eventManager = eventManager
         }
     }
 
@@ -87,7 +82,6 @@ extension AmountComponentViewModel {
 extension AmountComponentViewModel {
     struct Build {
         let content: AmountComponent.Content
-        let notificationHandler: AlchemistLiteNotificationHandler
-        let configuration: AlchemistLiteEventConfiguration?
+        let eventManager: AlchemistLiteEventManager
     }
 }

@@ -13,7 +13,7 @@ class AlchemistLiteBroker {
     private let notificationName: String = "AlchemistLiteEvent_\(UUID().uuidString)"
     
     /// Notifies subscriber of the status of obtaining or refreshing views
-    var onUpdatedViews: ((Result<[UIView], AlchemistLiteError>) -> Void)?
+    var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)?
     
     func load() {
         guard let bundlePath = Bundle.main.path(forResource: "SDUIInitialDraft", ofType: "json"),
@@ -27,7 +27,9 @@ class AlchemistLiteBroker {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.onUpdatedViews?(.success(self.currentSessionComponents.map({$0.getView()})))
+            self.onUpdatedViews?(.success(self.currentSessionComponents.map({
+                return AlchemistLiteModelResult(id: $0.id, view: $0.getView())
+            })))
         }
     }
     
@@ -42,7 +44,9 @@ class AlchemistLiteBroker {
         handleUpdatedResults(updated: deserialized)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.onUpdatedViews?(.success(self.currentSessionComponents.map({$0.getView()})))
+            self.onUpdatedViews?(.success(self.currentSessionComponents.map({
+                return AlchemistLiteModelResult(id: $0.id, view: $0.getView())
+            })))
         }
     }
     
@@ -78,9 +82,9 @@ class AlchemistLiteBroker {
             
             //2 - update current set while keeping old views
             for component in updated {
-                if let currentComponent = currentSessionComponents.first(where: {$0.id == component.id}), let data = component.content {
+                if let currentComponent = currentSessionComponents.first(where: {$0.id == component.id}) {
                     DispatchQueue.main.async {
-                        currentComponent.updateView(data: data)
+                        currentComponent.updateView(component: component)
                     }
                     newComponentArray.append(currentComponent)
                 } else {
@@ -119,41 +123,82 @@ struct AlchemistLiteNotification {
 }
 
 struct AlchemistLiteUIComponentConfiguration {
-    let component: BEComponent
-    let notificationHandler: AlchemistLiteNotificationHandler
+    private let component: BEComponent
+    private let notificationHandler: AlchemistLiteNotificationHandler
+
+    init(component: BEComponent, notificationHandler: AlchemistLiteNotificationHandler) {
+        self.component = component
+        self.notificationHandler = notificationHandler
+    }
+
+    var componentId: String {
+        return component.id
+    }
+
+    var componentType: String {
+        return component.type
+    }
+
+    func parseContent<T: Decodable>() throws -> T {
+        guard let componentData = component.content else { throw AlchemistLiteError.componentDataMissing(component: TitleComponent.componentType)}
+        do {
+            return try JSONDecoder().decode(T.self, from: componentData)
+        } catch {
+            throw AlchemistLiteError.componentDataParsing(component: TitleComponent.componentType)
+        }
+    }
+
+    func getEventManager() -> AlchemistLiteEventManager {
+        return AlchemistLiteEventManager(notificationHandler: notificationHandler,
+                                         eventConfiguration: component.eventConfiguration,
+                                         trackingEvents: component.trackingEvents)
+    }
 }
 
-class AlchemistLiteNotificationHandler {
-    private let notificationCenter: NotificationCenter
-    private let name: String
+class AlchemistLiteEventManager {
+    let notificationHandler: AlchemistLiteNotificationHandler
+    var eventConfiguration: AlchemistLiteEventConfiguration?
+    var trackingEvents: [AlchemistLiteTrackingEvent]?
+
     var onNotificationReceived: ((AlchemistLiteNotification) -> Void)?
-    
-    init(name: String,
-         notificationCenter: NotificationCenter = .default) {
-        self.notificationCenter = notificationCenter
-        self.name = name
-        setupObserver()
-    }
-    
-    private func setupObserver() {
-        notificationCenter.addObserver(self,
-                                       selector: #selector(didReceiveNotification),
-                                       name: NSNotification.Name(name),
-                                       object: nil
-        )
-    }
-    
-    @objc
-    private func didReceiveNotification(_ notification: Notification) {
-        guard let item = notification.object as? AlchemistLiteNotification else {
-            let object = notification.object as Any
-            assertionFailure("Invalid object: \(object)")
-            return
+
+    init(notificationHandler: AlchemistLiteNotificationHandler,
+        eventConfiguration: AlchemistLiteEventConfiguration?,
+         trackingEvents: [AlchemistLiteTrackingEvent]?) {
+        self.notificationHandler = notificationHandler
+        self.eventConfiguration = eventConfiguration
+        self.trackingEvents = trackingEvents
+        notificationHandler.onNotificationReceived = { [weak self] notification in
+            self?.onNotificationReceived?(notification)
         }
-        onNotificationReceived?(item)
     }
-    
-    func broadcastNotification(notification: AlchemistLiteNotification) {
-        notificationCenter.post(name: NSNotification.Name(name), object: notification)
+
+    func update(eventConfiguration: AlchemistLiteEventConfiguration?,
+                trackingEvents: [AlchemistLiteTrackingEvent]?) {
+        self.eventConfiguration = eventConfiguration
+        self.trackingEvents = trackingEvents
     }
+
+    func triggerEvent(trigger: AlchemistLiteTrigger, forId identifier: Int) {
+        if let eventConfig = eventConfiguration,
+           let events = eventConfig.events,
+           let event = events.filter({$0.targetId == identifier && $0.trigger == trigger}).first {
+            notificationHandler.broadcastNotification(notification: AlchemistLiteNotification(id: event.eventType,
+                                                                                              data: event.eventBody))
+        }
+
+        // TODO: Add tracking instance
+        if let trackingEvents = trackingEvents,
+           let event = trackingEvents.filter({$0.trigger == trigger && $0.targetId == identifier}).first {
+            print("Tracking Event \(event)")
+        }
+
+        // TODO: Handle Actions
+
+    }
+}
+
+struct AlchemistLiteModelResult {
+    let id: String
+    let view: UIView
 }

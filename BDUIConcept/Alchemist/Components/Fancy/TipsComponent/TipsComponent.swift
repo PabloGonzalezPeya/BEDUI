@@ -13,40 +13,35 @@ class TipsComponent: AlchemistLiteUIComponent {
 
     var id: String
     var type: String
-    var notificationHandler: AlchemistLiteNotificationHandler
-    var configuration: AlchemistLiteEventConfiguration?
 
     private(set) var content: Content
+    private(set) var eventManager: AlchemistLiteEventManager
     private var currentView: TipsComponentView?
 
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
-        self.id = config.component.id
-        self.type = config.component.type
-        self.configuration = config.component.eventConfiguration
-        guard let componentData = config.component.content else { throw AlchemistLiteError.componentDataMissing(component: AmountComponent.componentType)}
-        do {
-            self.content = try JSONDecoder().decode(Content.self, from: componentData)
-        } catch {
-            throw AlchemistLiteError.componentDataParsing(component: TitleComponent.componentType)
-        }
-        self.notificationHandler = config.notificationHandler
+        self.id = config.componentId
+        self.type = config.componentType
+        self.content = try config.parseContent()
+        self.eventManager = config.getEventManager()
     }
 
     func getView() -> UIView {
         if let viewtoReturn = currentView {
             return viewtoReturn
         }
-        let view = TipsComponentView(viewModel: TipsComponentViewModel(build: TipsComponentViewModel.Build(content: content, notificationHandler: notificationHandler, configuration: configuration)))
+        let view = TipsComponentView(viewModel: TipsComponentViewModel(build: TipsComponentViewModel.Build(content: content, eventHandler: eventManager)))
         currentView = view
         return view
     }
 
-    func updateView(data: Data) {
+    func updateView(component: BEComponent) {
+        guard let data = component.content else { return }
         guard let updatedContent = try? JSONDecoder().decode(Content.self, from: data),
         updatedContent != self.content else {
             print("No changes for \(MultiLineTextComponent.componentType)")
             return
         }
+        self.eventManager.update(eventConfiguration: component.eventConfiguration, trackingEvents: component.trackingEvents)
         self.content = updatedContent
         currentView?.update(withContent: updatedContent)
     }

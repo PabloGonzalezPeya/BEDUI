@@ -1,80 +1,141 @@
-[
-    {
-        "id": "topTitle",
-        "type": "titleSingle",
-        "content": {
-            "title": "ALCHEMIST LITE DEMO APP"
-        }
-    },
+[{
+    "id": "topTitle",
+    "type": "titleSingle",
+    "content": {
+        "title": "ALCHEMIST LITE DEMO APP"
+    }
+},
     {
         "id": "sampleImagesTop",
         "type": "imageCarrousel",
         "content": {
-            "title": "Second carrousel title",
-            "images":
-            [
-                {  "id": "1",
-                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_F0Yk5Kr0qHTqMVsgNeI1V9nHb71Dos5pjg&usqp=CAU"
+            "title": "First carrousel title",
+            "images": [{
+                "id": "1",
+                "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Isologotipo_PedidosYa.jpg"
+            },
+                {
+                    "id": "2",
+                    "url": "https://infonegocios.biz/uploads/pedidosyacelular.jpg"
                 },
-                {  "id": "2",
-                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_F0Yk5Kr0qHTqMVsgNeI1V9nHb71Dos5pjg&usqp=CAU"
+                {
+                    "id": "3",
+                    "url": "https://www.america-retail.com/static//2021/02/agencia-cliente-pedidos-ya-hombre-logo-delivery.jpg"
                 },
-                {   "id": "3",
-                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_F0Yk5Kr0qHTqMVsgNeI1V9nHb71Dos5pjg&usqp=CAU"
-                },
-                {   "id": "4",
-                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_F0Yk5Kr0qHTqMVsgNeI1V9nHb71Dos5pjg&usqp=CAU"
+                {
+                    "id": "4",
+                    "url": "https://imagekit.androidphoria.com/wp-content/uploads/Como-chatear-con-pedidosya.jpg"
                 }
-            ] }
-    },
-    {
-        "id": "bottomText",
-        "type": "multilineText",
-        "content": {
-            "body": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-        }
+            ]
+        },
+        "trackingEvents": [{
+            "id": "carrousel.clicked",
+            "targetId": 1,
+            "properties": {
+                "businessType": "MORE_VERTICALS",
+                "screenType": "home_screen"
+            },
+            "trigger": "CLICKED"
+        },
+            {
+                "id": "carrousel.clicked",
+                "targetId": 2,
+                "properties": {
+                    "businessType": "MORE_VERTICALS",
+                    "screenType": "home_screen"
+                },
+                "trigger": "CLICKED"
+            }
+        ]
     },
     {
         "id": "bottomAmount",
         "type": "amount",
         "content": {
-            "amountDisplayValue": "$25",
+            "amountDisplayValue": "$200",
             "amount": 200,
             "currencySymbol": "$",
-            "cardImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png",
-            "cardType": "Master"
+            "cardImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Former_Visa_%28company%29_logo.svg/3072px-Former_Visa_%28company%29_logo.svg.png",
+            "cardType": "Visa"
+        },
+        "eventConfiguration": {
+            "origins": ["tipSelection"]
         }
     },
     {
         "id": "tipSelection",
         "type": "tips",
         "content": {
-            "tips": [
+            "tips": [{
+                "id": 1,
+                "displayValue": "$10",
+                "value": 10
+            },
                 {
-                    "displayValue": "$10",
-                    "value": 10
-                },
-                {
+                    "id": 2,
                     "displayValue": "$20",
                     "value": 20
                 },
                 {
+                    "id": 3,
                     "displayValue": "$30",
                     "value": 30
                 },
                 {
+                    "id": 4,
                     "displayValue": "$40",
                     "value": 40
-                },
-                {
-                    "displayValue": "$50",
-                    "value": 50
-                },
-                {
-                    "displayValue": "$60",
-                    "value": 60
                 }
             ]
+        },
+        "eventConfiguration": {
+            "events": [{
+                "eventType": "amountUpdated",
+                "targetId": 1,
+                "trigger": "CLICKED",
+                "eventBody": {
+                    "amount": 10,
+                    "origin": "tipSelection"
+                },
+            },
+                {
+                    "eventType": "amountUpdated",
+                    "targetId": 2,
+                    "trigger": "CLICKED",
+                    "eventBody": {
+                        "amount": 20,
+                        "origin": "tipSelection"
+
+                    }
+                },
+                {
+                    "eventType": "amountUpdated",
+                    "targetId": 3,
+                    "trigger": "CLICKED",
+                    "eventBody": {
+                        "amount": 30,
+                        "origin": "tipSelection"
+
+                    }
+                },
+                {
+                    "eventType": "amountUpdated",
+                    "targetId": 4,
+                    "trigger": "CLICKED",
+                    "eventBody": {
+                        "amount": 40,
+                        "origin": "tipSelection"
+
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": "bottomText",
+        "type": "multilineText",
+        "content": {
+            "body": "Slimer body now"
         }
     }
 ]

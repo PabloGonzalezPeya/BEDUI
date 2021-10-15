@@ -13,38 +13,35 @@ class ImageCarrouselComponent: AlchemistLiteUIComponent {
     
     var id: String
     var type: String
-    var notificationHandler: AlchemistLiteNotificationHandler
     
     private(set) var content: Content
+    let eventManager: AlchemistLiteEventManager
     private var currentView: ImageCarrouselView?
     
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
-        self.id = config.component.id
-        self.type = config.component.type
-        guard let componentData = config.component.content else { throw AlchemistLiteError.componentDataMissing(component: TitleComponent.componentType)}
-        do {
-            self.content = try JSONDecoder().decode(Content.self, from: componentData)
-        } catch {
-            throw AlchemistLiteError.componentDataParsing(component: TitleComponent.componentType)
-        }
-        self.notificationHandler = config.notificationHandler
+        self.id = config.componentId
+        self.type = config.componentType
+        self.eventManager = config.getEventManager()
+        self.content = try config.parseContent()
     }
     
     func getView() -> UIView {
         if let viewtoReturn = currentView {
             return viewtoReturn
         }
-        let view = ImageCarrouselView(content: content)
+        let view = ImageCarrouselView(content: content, eventManager: eventManager)
         currentView = view
         return view
     }
     
-    func updateView(data: Data) {
+    func updateView(component: BEComponent) {
+        guard let data = component.content else { return }
         guard let updatedContent = try? JSONDecoder().decode(Content.self, from: data),
         updatedContent != self.content else {
             print("No changes for \(ImageCarrouselComponent.componentType)")
             return
         }
+        self.eventManager.update(eventConfiguration: component.eventConfiguration, trackingEvents: component.trackingEvents)
         self.content = updatedContent
         currentView?.update(withContent: updatedContent)
     }

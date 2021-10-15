@@ -42,8 +42,8 @@ class SDUITestViewController: UIViewController {
         
         broker.onUpdatedViews = { [weak self] result in
             switch result {
-            case .success(let views):
-                self?.handleViewAnimation(forViews: views)
+            case .success(let alchemistModel):
+                self?.handleViewAnimation(forViews: alchemistModel.map({$0.view}))
             case .failure(let error):
                 print(error)
             }

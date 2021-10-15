@@ -10,11 +10,11 @@ import UIKit
 
 class MultiLineTextComponentView: UIView, AlchemistLiteViewUpdatable {
     private let titleLabel = UILabel()
-    private let handler: AlchemistLiteNotificationHandler
+    private var handler: AlchemistLiteEventManager
     
     
     init(viewModel: MultiLineTextComponent.Content,
-         handler: AlchemistLiteNotificationHandler) {
+         handler: AlchemistLiteEventManager) {
         self.handler = handler
         super.init(frame: .zero)
         titleLabel.text = viewModel.body
