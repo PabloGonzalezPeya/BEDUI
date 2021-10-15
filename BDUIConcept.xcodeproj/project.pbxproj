@@ -35,6 +35,7 @@
 		2F1CB0AB2715BF1A008680A7 /* MultiLineTextComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CB0AA2715BF19008680A7 /* MultiLineTextComponent.swift */; };
 		2F1CB0AD2715BF27008680A7 /* MultiLineTextComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CB0AC2715BF27008680A7 /* MultiLineTextComponentView.swift */; };
 		783B03A22719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783B03A12719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift */; };
+		783B03A42719F30600C35B8D /* AlchemistLiteEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783B03A32719F30600C35B8D /* AlchemistLiteEventManager.swift */; };
 		783DC52D27185772003C4DA4 /* AmountComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783DC52C27185772003C4DA4 /* AmountComponent.swift */; };
 		783DC530271858B8003C4DA4 /* ViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783DC52F271858B8003C4DA4 /* ViewModelable.swift */; };
 		783DC5322718592F003C4DA4 /* AmountComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783DC5312718592F003C4DA4 /* AmountComponentView.swift */; };
@@ -93,6 +94,7 @@
 		2F1CB0AA2715BF19008680A7 /* MultiLineTextComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineTextComponent.swift; sourceTree = "<group>"; };
 		2F1CB0AC2715BF27008680A7 /* MultiLineTextComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineTextComponentView.swift; sourceTree = "<group>"; };
 		783B03A12719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlchemistLiteNotificationHandler.swift; sourceTree = "<group>"; };
+		783B03A32719F30600C35B8D /* AlchemistLiteEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlchemistLiteEventManager.swift; sourceTree = "<group>"; };
 		783DC52C27185772003C4DA4 /* AmountComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountComponent.swift; sourceTree = "<group>"; };
 		783DC52F271858B8003C4DA4 /* ViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelable.swift; sourceTree = "<group>"; };
 		783DC5312718592F003C4DA4 /* AmountComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountComponentView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				2F1CB0892713CE4C008680A7 /* AlchemistLiteUIComponent.swift */,
 				2F1CB0972714DF4D008680A7 /* AlchemistError.swift */,
 				783B03A12719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift */,
+				783B03A32719F30600C35B8D /* AlchemistLiteEventManager.swift */,
 			);
 			path = Alchemist;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				2F1CB04A27135423008680A7 /* AppDelegate.swift in Sources */,
 				2F1CB09C271546CF008680A7 /* TitleComponent.swift in Sources */,
 				2F1CB0822713924D008680A7 /* AlchemistLiteManager.swift in Sources */,
+				783B03A42719F30600C35B8D /* AlchemistLiteEventManager.swift in Sources */,
 				2F1CB09E27154D9A008680A7 /* TitleComponentView.swift in Sources */,
 				2F1CB0AB2715BF1A008680A7 /* MultiLineTextComponent.swift in Sources */,
 				783DC53427185949003C4DA4 /* AmountComponentViewModel.swift in Sources */,

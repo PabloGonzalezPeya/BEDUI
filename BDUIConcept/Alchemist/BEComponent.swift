@@ -24,9 +24,11 @@ struct BEComponent: Decodable {
 
     // All tracking events
     let trackingEvents: [AlchemistLiteTrackingEvent]?
+
+    let actions: [AlchemistLiteAction]?
     
     private enum CodingKeys : String, CodingKey {
-        case id, type, hash, content, eventConfiguration, trackingEvents
+        case id, type, hash, content, eventConfiguration, trackingEvents, actions
     }
     
     init(from decoder: Decoder) throws {
@@ -35,6 +37,7 @@ struct BEComponent: Decodable {
         self.type = try container.decode(String.self, forKey: .type)
         self.eventConfiguration = try container.decodeIfPresent(AlchemistLiteEventConfiguration.self, forKey: .eventConfiguration)
         self.trackingEvents = try container.decodeIfPresent([AlchemistLiteTrackingEvent].self, forKey: .trackingEvents)
+        self.actions = try container.decodeIfPresent([AlchemistLiteAction].self, forKey: .actions)
         guard let contentDictionary = try container.decodeIfPresent([String: Any].self, forKey: .content) else {
             self.content = nil
             return
@@ -94,6 +97,57 @@ struct AlchemistLiteTrackingEvent: Decodable {
         self.properties = propertiesDictionary
     }
 }
+
+struct AlchemistLiteAction: Decodable {
+    let type: String
+    let data: [String: Any]?
+    let targetId: Int
+    let trigger: AlchemistLiteTrigger
+
+    private enum CodingKeys : String, CodingKey {
+        case type, data, targetId, trigger
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.type = try container.decode(String.self, forKey: .type)
+        self.targetId = try container.decode(Int.self, forKey: .targetId)
+        self.trigger = try container.decode(AlchemistLiteTrigger.self, forKey: .trigger)
+        guard let dataDictionary = try container.decodeIfPresent([String: Any].self, forKey: .data) else {
+            data = nil
+            return
+        }
+        self.data = dataDictionary
+    }
+}
+
+//"actions": [{
+//        "type": "navigate",
+//        "data": {
+//            "targetUrl": "pedidosya://lptm"
+//        },
+//        "targetId": 1,
+//        "trigger": "CLICKED"
+//    },
+//    {
+//        "type": "modal",
+//        "data": {
+//            "title": "Cancelar orden",
+//            "subtitle": "?Desea usted cancelar la orden",
+//            "actionTitle": "aceptar"
+//        },
+//        "targetId": 2,
+//        "trigger": "CLICKED"
+//    },
+//    {
+//        "type": "link",
+//        "data": {
+//            "targetUrl": "pedidosya://lptm"
+//        },
+//        "targetId": 3,
+//        "trigger": "CLICKED"
+//    }
+//]
 
 enum AlchemistLiteTrigger: String, Decodable {
     case clicked = "CLICKED"

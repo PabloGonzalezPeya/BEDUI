@@ -41,7 +41,9 @@ class TipsComponent: AlchemistLiteUIComponent {
             print("No changes for \(MultiLineTextComponent.componentType)")
             return
         }
-        self.eventManager.update(eventConfiguration: component.eventConfiguration, trackingEvents: component.trackingEvents)
+        self.eventManager.update(eventConfiguration: component.eventConfiguration,
+                                 trackingEvents: component.trackingEvents,
+                                 actions: component.actions)
         self.content = updatedContent
         currentView?.update(withContent: updatedContent)
     }

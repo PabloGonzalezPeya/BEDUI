@@ -151,50 +151,8 @@ struct AlchemistLiteUIComponentConfiguration {
     func getEventManager() -> AlchemistLiteEventManager {
         return AlchemistLiteEventManager(notificationHandler: notificationHandler,
                                          eventConfiguration: component.eventConfiguration,
-                                         trackingEvents: component.trackingEvents)
-    }
-}
-
-class AlchemistLiteEventManager {
-    let notificationHandler: AlchemistLiteNotificationHandler
-    var eventConfiguration: AlchemistLiteEventConfiguration?
-    var trackingEvents: [AlchemistLiteTrackingEvent]?
-
-    var onNotificationReceived: ((AlchemistLiteNotification) -> Void)?
-
-    init(notificationHandler: AlchemistLiteNotificationHandler,
-        eventConfiguration: AlchemistLiteEventConfiguration?,
-         trackingEvents: [AlchemistLiteTrackingEvent]?) {
-        self.notificationHandler = notificationHandler
-        self.eventConfiguration = eventConfiguration
-        self.trackingEvents = trackingEvents
-        notificationHandler.onNotificationReceived = { [weak self] notification in
-            self?.onNotificationReceived?(notification)
-        }
-    }
-
-    func update(eventConfiguration: AlchemistLiteEventConfiguration?,
-                trackingEvents: [AlchemistLiteTrackingEvent]?) {
-        self.eventConfiguration = eventConfiguration
-        self.trackingEvents = trackingEvents
-    }
-
-    func triggerEvent(trigger: AlchemistLiteTrigger, forId identifier: Int) {
-        if let eventConfig = eventConfiguration,
-           let events = eventConfig.events,
-           let event = events.filter({$0.targetId == identifier && $0.trigger == trigger}).first {
-            notificationHandler.broadcastNotification(notification: AlchemistLiteNotification(id: event.eventType,
-                                                                                              data: event.eventBody))
-        }
-
-        // TODO: Add tracking instance
-        if let trackingEvents = trackingEvents,
-           let event = trackingEvents.filter({$0.trigger == trigger && $0.targetId == identifier}).first {
-            print("Tracking Event \(event)")
-        }
-
-        // TODO: Handle Actions
-
+                                         trackingEvents: component.trackingEvents,
+                                         actions: component.actions)
     }
 }
 

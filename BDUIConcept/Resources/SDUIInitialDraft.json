@@ -1,19 +1,19 @@
 [{
-    "id": "topTitle",
-    "type": "titleSingle",
-    "content": {
-        "title": "ALCHEMIST LITE DEMO APP"
-    }
-},
+        "id": "topTitle",
+        "type": "titleSingle",
+        "content": {
+            "title": "ALCHEMIST LITE DEMO APP"
+        }
+    },
     {
         "id": "sampleImagesTop",
         "type": "imageCarrousel",
         "content": {
             "title": "First carrousel title",
             "images": [{
-                "id": "1",
-                "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Isologotipo_PedidosYa.jpg"
-            },
+                    "id": "1",
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Isologotipo_PedidosYa.jpg"
+                },
                 {
                     "id": "2",
                     "url": "https://infonegocios.biz/uploads/pedidosyacelular.jpg"
@@ -29,14 +29,14 @@
             ]
         },
         "trackingEvents": [{
-            "id": "carrousel.clicked",
-            "targetId": 1,
-            "properties": {
-                "businessType": "MORE_VERTICALS",
-                "screenType": "home_screen"
+                "id": "carrousel.clicked",
+                "targetId": 1,
+                "properties": {
+                    "businessType": "MORE_VERTICALS",
+                    "screenType": "home_screen"
+                },
+                "trigger": "CLICKED"
             },
-            "trigger": "CLICKED"
-        },
             {
                 "id": "carrousel.clicked",
                 "targetId": 2,
@@ -44,6 +44,33 @@
                     "businessType": "MORE_VERTICALS",
                     "screenType": "home_screen"
                 },
+                "trigger": "CLICKED"
+            }
+        ],
+        "actions": [{
+                "type": "navigate",
+                "data": {
+                    "targetUrl": "pedidosya://lptm"
+                },
+                "targetId": 1,
+                "trigger": "CLICKED"
+            },
+            {
+                "type": "modal",
+                "data": {
+                    "title": "Cancelar orden",
+                    "subtitle": "?Desea usted cancelar la orden",
+                    "actionTitle": "aceptar"
+                },
+                "targetId": 2,
+                "trigger": "CLICKED"
+            },
+            {
+                "type": "link",
+                "data": {
+                    "targetUrl": "pedidosya://lptm"
+                },
+                "targetId": 3,
                 "trigger": "CLICKED"
             }
         ]
@@ -74,10 +101,10 @@
         "type": "tips",
         "content": {
             "tips": [{
-                "id": 1,
-                "displayValue": "$10",
-                "value": 10
-            },
+                    "id": 1,
+                    "displayValue": "$10",
+                    "value": 10
+                },
                 {
                     "id": 2,
                     "displayValue": "$20",
@@ -97,14 +124,14 @@
         },
         "eventConfiguration": {
             "events": [{
-                "eventType": "amountUpdated",
-                "targetId": 1,
-                "trigger": "CLICKED",
-                "eventBody": {
-                    "amount": 10,
-                    "origin": "tipSelection"
+                    "eventType": "amountUpdated",
+                    "targetId": 1,
+                    "trigger": "CLICKED",
+                    "eventBody": {
+                        "amount": 10,
+                        "origin": "tipSelection"
+                    }
                 },
-            },
                 {
                     "eventType": "amountUpdated",
                     "targetId": 2,
@@ -143,10 +170,10 @@
         "type": "tips",
         "content": {
             "tips": [{
-                "id": 1,
-                "displayValue": "$50",
-                "value": 50
-            },
+                    "id": 1,
+                    "displayValue": "$50",
+                    "value": 50
+                },
                 {
                     "id": 2,
                     "displayValue": "$60",
@@ -166,14 +193,14 @@
         },
         "eventConfiguration": {
             "events": [{
-                "eventType": "amountUpdated",
-                "targetId": 1,
-                "trigger": "CLICKED",
-                "eventBody": {
-                    "amount": 50,
-                    "origin": "DonationSelection"
-                }
-            },
+                    "eventType": "amountUpdated",
+                    "targetId": 1,
+                    "trigger": "CLICKED",
+                    "eventBody": {
+                        "amount": 50,
+                        "origin": "DonationSelection"
+                    }
+                },
                 {
                     "eventType": "amountUpdated",
                     "targetId": 2,

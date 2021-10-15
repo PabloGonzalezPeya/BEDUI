@@ -42,7 +42,9 @@ class MultiLineTextComponent: AlchemistLiteUIComponent {
             return
         }
         self.content = updatedContent
-        eventManager.update(eventConfiguration: component.eventConfiguration, trackingEvents: component.trackingEvents)
+        eventManager.update(eventConfiguration: component.eventConfiguration,
+                            trackingEvents: component.trackingEvents,
+                            actions: component.actions)
         currentView?.update(withContent: updatedContent)
     }
 }

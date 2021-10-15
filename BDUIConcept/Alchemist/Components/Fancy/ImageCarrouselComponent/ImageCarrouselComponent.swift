@@ -41,7 +41,9 @@ class ImageCarrouselComponent: AlchemistLiteUIComponent {
             print("No changes for \(ImageCarrouselComponent.componentType)")
             return
         }
-        self.eventManager.update(eventConfiguration: component.eventConfiguration, trackingEvents: component.trackingEvents)
+        self.eventManager.update(eventConfiguration: component.eventConfiguration,
+                                 trackingEvents: component.trackingEvents,
+                                 actions: component.actions)
         self.content = updatedContent
         currentView?.update(withContent: updatedContent)
     }

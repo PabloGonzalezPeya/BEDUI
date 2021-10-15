@@ -87,7 +87,8 @@ extension ImageCarrouselView: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        eventManager.triggerEvent(trigger: .clicked, forId: indexPath.row+1)
+        let item = Int(content.images[indexPath.row].id)!
+        eventManager.triggerEvent(trigger: .clicked, forId: item)
     }
 }
 

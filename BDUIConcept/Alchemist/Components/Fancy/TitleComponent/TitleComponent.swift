@@ -44,7 +44,8 @@ class TitleComponent: AlchemistLiteUIComponent {
               }
         self.content = updatedContent
         self.eventManager.update(eventConfiguration: component.eventConfiguration,
-                                 trackingEvents: component.trackingEvents)
+                                 trackingEvents: component.trackingEvents,
+                                 actions: component.actions)
         currentView?.update(withContent: updatedContent)
     }
 }
