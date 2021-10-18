@@ -55,6 +55,5 @@ class AlchemistLiteEventManager {
            let action = actions.filter({$0.trigger == trigger && $0.targetId == identifier}).first {
             print("Executing action \(action)")
         }
-
     }
 }

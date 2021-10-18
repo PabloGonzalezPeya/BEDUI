@@ -159,3 +159,5 @@ public struct AlchemistLiteModelResult {
     let id: String
     let view: UIView
 }
+
+typealias AlchemistLiteComponentable = AlchemistLiteUIComponentProtocol & AlchemistLiteContentProtocol

@@ -67,6 +67,3 @@ protocol AlchemistLiteContentProtocol {
 
     var content: Model { get }
 }
-
-
-typealias AlchemistLiteComponentable = AlchemistLiteUIComponentProtocol & AlchemistLiteContentProtocol
