@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 
-protocol AlchemistLiteUIComponent {
+protocol AlchemistLiteUIComponentProtocol {
     // Component id to be used by Alchemist Lite
     static var componentType: String { get }
     
     var id: String { get }
     var type: String { get }
     var eventManager: AlchemistLiteEventManager { get }
+    var currentView: UIView? { get }
     
     func getView() -> UIView
     func updateView(component: BEComponent)

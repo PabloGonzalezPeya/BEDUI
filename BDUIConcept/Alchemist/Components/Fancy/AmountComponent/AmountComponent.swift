@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AmountComponent: AlchemistLiteUIComponent {
+class AmountComponent: AlchemistLiteComponentable {
     private(set) static var componentType = "amount"
 
     var id: String
@@ -16,7 +16,7 @@ class AmountComponent: AlchemistLiteUIComponent {
 
     private(set) var content: Content
     private(set) var eventManager: AlchemistLiteEventManager
-    private var currentView: AmountComponentView?
+    private(set) var currentView: UIView?
 
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
         self.id = config.componentId
@@ -45,7 +45,8 @@ class AmountComponent: AlchemistLiteUIComponent {
         eventManager.update(eventConfiguration: component.eventConfiguration,
                             trackingEvents: component.trackingEvents,
                             actions: component.actions)
-        currentView?.update(withContent: updatedContent)
+        guard let view = currentView as? AmountComponentView else { return }
+        view.update(withContent: updatedContent)
     }
 }
 

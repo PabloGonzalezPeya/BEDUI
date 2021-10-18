@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct BEComponent: Decodable {
+public struct BEComponent: Decodable {
     
     /// What identifies the component. Ir may have the same type as others. Ex: Collection for X thing, Collection for Y thing
     let id: String
@@ -31,7 +31,7 @@ struct BEComponent: Decodable {
         case id, type, hash, content, eventConfiguration, trackingEvents, actions
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.type = try container.decode(String.self, forKey: .type)

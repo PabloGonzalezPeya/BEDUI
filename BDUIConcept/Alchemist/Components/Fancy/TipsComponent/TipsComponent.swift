@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-class TipsComponent: AlchemistLiteUIComponent {
+class TipsComponent: AlchemistLiteComponentable {
     private(set) static var componentType = "tips"
 
-    var id: String
-    var type: String
+    private(set) var id: String
+    private(set) var type: String
+    private(set) var currentView: UIView?
+    private(set) var eventManager: AlchemistLiteEventManager
 
     private(set) var content: Content
-    private(set) var eventManager: AlchemistLiteEventManager
-    private var currentView: TipsComponentView?
 
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
         self.id = config.componentId
@@ -45,7 +45,8 @@ class TipsComponent: AlchemistLiteUIComponent {
                                  trackingEvents: component.trackingEvents,
                                  actions: component.actions)
         self.content = updatedContent
-        currentView?.update(withContent: updatedContent)
+        guard let view = currentView as? TipsComponentView else { return }
+        view.update(withContent: updatedContent)
     }
 }
 
@@ -60,3 +61,12 @@ extension TipsComponent {
         let value: Double
     }
 }
+
+protocol AlchemistLiteContentProtocol {
+    associatedtype Model
+
+    var content: Model { get }
+}
+
+
+typealias AlchemistLiteComponentable = AlchemistLiteUIComponentProtocol & AlchemistLiteContentProtocol

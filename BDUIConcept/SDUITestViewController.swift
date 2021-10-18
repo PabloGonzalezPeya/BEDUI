@@ -53,9 +53,9 @@ class SDUITestViewController: UIViewController {
         //4 - Ask broker to process json from any source we want
         broker.load(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
         
-//        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
-//            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
-//        }
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
+            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
+        }
     }
     
     func handleViewAnimation(forViews views: [UIView]) {
@@ -81,9 +81,9 @@ class SDUITestViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
-//            self?.dismiss(animated: true, completion: nil)
-//        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     deinit {

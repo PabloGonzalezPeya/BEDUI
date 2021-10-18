@@ -8,14 +8,19 @@
 import Foundation
 import UIKit
 
-class AlchemistLiteBroker {
-    private var currentSessionComponents = [AlchemistLiteUIComponent]()
+public protocol AlchemistLiteBrokerProtocol {
+    var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)? { get }
+    func load(_ loadType: AlchemistLiteBroker.LoadType)
+}
+
+public final class AlchemistLiteBroker: AlchemistLiteBrokerProtocol {
+    private var currentSessionComponents = [AlchemistLiteUIComponentProtocol]()
     private let notificationName: String = "AlchemistLiteEvent_\(UUID().uuidString)"
     
     /// Notifies subscriber of the status of obtaining or refreshing views
-    var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)?
+    public var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)?
 
-    func load(_ loadType: LoadType) {
+    public func load(_ loadType: LoadType) {
         switch loadType {
         case .fromLocalFile(let name, let bundle):
             handleLoadFromResource(name: name, bundle: bundle)
@@ -58,7 +63,7 @@ class AlchemistLiteBroker {
             print("No previous components. Added server ones as default")
         } else {
             //2 - We need tp update and change locations
-            var newComponentArray = [AlchemistLiteUIComponent]()
+            var newComponentArray = [AlchemistLiteUIComponentProtocol]()
             
             //1 - get the id views on both sets and remove the ones that no longer apply
             let currentIds = currentSessionComponents.map({$0.id})
@@ -97,7 +102,7 @@ class AlchemistLiteBroker {
     }
 }
 
-extension AlchemistLiteBroker {
+public extension AlchemistLiteBroker {
     enum LoadType {
         // To get response from local json file. Use file name without extension.
         case fromLocalFile(name: String, bundle: Bundle)
@@ -150,7 +155,7 @@ struct AlchemistLiteUIComponentConfiguration {
     }
 }
 
-struct AlchemistLiteModelResult {
+public struct AlchemistLiteModelResult {
     let id: String
     let view: UIView
 }

@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-class ImageCarrouselComponent: AlchemistLiteUIComponent {
+class ImageCarrouselComponent: AlchemistLiteComponentable {
     private(set) static var componentType = "imageCarrousel"
     
-    var id: String
-    var type: String
-    
+    private(set) var id: String
+    private(set) var type: String
     private(set) var content: Content
-    let eventManager: AlchemistLiteEventManager
-    private var currentView: ImageCarrouselView?
+    private(set) var eventManager: AlchemistLiteEventManager
+    private(set) var currentView: UIView?
     
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
         self.id = config.componentId
@@ -45,7 +44,8 @@ class ImageCarrouselComponent: AlchemistLiteUIComponent {
                                  trackingEvents: component.trackingEvents,
                                  actions: component.actions)
         self.content = updatedContent
-        currentView?.update(withContent: updatedContent)
+        guard let view = currentView as? ImageCarrouselView else { return }
+        view.update(withContent: updatedContent)
     }
 }
 

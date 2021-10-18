@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MultiLineTextComponent: AlchemistLiteUIComponent {
+class MultiLineTextComponent: AlchemistLiteComponentable {
     private(set) static var componentType = "multilineText"
     
     var id: String
@@ -16,7 +16,7 @@ class MultiLineTextComponent: AlchemistLiteUIComponent {
     
     private(set) var content: Content
     private(set) var eventManager: AlchemistLiteEventManager
-    private var currentView: MultiLineTextComponentView?
+    private(set) var currentView: UIView?
     
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
         self.id = config.componentId
@@ -45,7 +45,8 @@ class MultiLineTextComponent: AlchemistLiteUIComponent {
         eventManager.update(eventConfiguration: component.eventConfiguration,
                             trackingEvents: component.trackingEvents,
                             actions: component.actions)
-        currentView?.update(withContent: updatedContent)
+        guard let view = currentView as? MultiLineTextComponentView else { return }
+        view.update(withContent: updatedContent)
     }
 }
 

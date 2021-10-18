@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-class TitleComponent: AlchemistLiteUIComponent {
+class TitleComponent: AlchemistLiteComponentable {
     private(set) static var componentType = "titleSingle"
     
-    var id: String
-    var type: String
-    
+    private(set) var id: String
+    private(set) var type: String
     private(set) var content: Content
     private(set) var eventManager: AlchemistLiteEventManager
-    private var currentView: TitleComponentView?
+    private(set) var currentView: UIView?
     
     required init(config: AlchemistLiteUIComponentConfiguration) throws {
         self.id = config.componentId
@@ -46,7 +45,8 @@ class TitleComponent: AlchemistLiteUIComponent {
         self.eventManager.update(eventConfiguration: component.eventConfiguration,
                                  trackingEvents: component.trackingEvents,
                                  actions: component.actions)
-        currentView?.update(withContent: updatedContent)
+        guard let view = currentView as? TitleComponentView else { return }
+        view.update(withContent: updatedContent)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AlchemistLiteError: Error {
+public enum AlchemistLiteError: Error {
     case responseDeserialization
     case componentDataMissing(component: String)
     case componentDataParsing(component: String)
