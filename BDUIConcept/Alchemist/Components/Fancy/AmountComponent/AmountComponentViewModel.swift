@@ -35,6 +35,10 @@ class AmountComponentViewModel: ViewModellable {
     private func handleNotificationIfNeeded(_ notification: AlchemistLiteNotification) {
         switch notification.id {
         case "amountUpdated":
+            if let value = notification.data["amount"] as? Int {
+                let amount = modelState.currentValue + Double(value)
+                viewState.amount.value = "$\(amount)"
+            }
             print("Received amount updated in Detail component with payload \(notification.data)")
         default:
             print("Nada!")
