@@ -34,6 +34,8 @@
 		2F1CB0A82715606A008680A7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2F1CB0A72715606A008680A7 /* SDWebImage */; };
 		2F1CB0AB2715BF1A008680A7 /* MultiLineTextComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CB0AA2715BF19008680A7 /* MultiLineTextComponent.swift */; };
 		2F1CB0AD2715BF27008680A7 /* MultiLineTextComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CB0AC2715BF27008680A7 /* MultiLineTextComponentView.swift */; };
+		7810EC59271DC3CF00F5A8A0 /* AsynchComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810EC58271DC3CF00F5A8A0 /* AsynchComponent.swift */; };
+		7810EC5B271DC48400F5A8A0 /* AsyncComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810EC5A271DC48400F5A8A0 /* AsyncComponentView.swift */; };
 		783B03A22719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783B03A12719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift */; };
 		783B03A42719F30600C35B8D /* AlchemistLiteEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783B03A32719F30600C35B8D /* AlchemistLiteEventManager.swift */; };
 		783DC52D27185772003C4DA4 /* AmountComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783DC52C27185772003C4DA4 /* AmountComponent.swift */; };
@@ -93,6 +95,8 @@
 		2F1CB0A427155474008680A7 /* ImageCarrouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarrouselView.swift; sourceTree = "<group>"; };
 		2F1CB0AA2715BF19008680A7 /* MultiLineTextComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineTextComponent.swift; sourceTree = "<group>"; };
 		2F1CB0AC2715BF27008680A7 /* MultiLineTextComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineTextComponentView.swift; sourceTree = "<group>"; };
+		7810EC58271DC3CF00F5A8A0 /* AsynchComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchComponent.swift; sourceTree = "<group>"; };
+		7810EC5A271DC48400F5A8A0 /* AsyncComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncComponentView.swift; sourceTree = "<group>"; };
 		783B03A12719BDE100C35B8D /* AlchemistLiteNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlchemistLiteNotificationHandler.swift; sourceTree = "<group>"; };
 		783B03A32719F30600C35B8D /* AlchemistLiteEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlchemistLiteEventManager.swift; sourceTree = "<group>"; };
 		783DC52C27185772003C4DA4 /* AmountComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountComponent.swift; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 		2F1CB099271546A3008680A7 /* Fancy */ = {
 			isa = PBXGroup;
 			children = (
+				7810EC57271DC3A700F5A8A0 /* AsyncComponent */,
 				783DC5352718676E003C4DA4 /* TipsComponent */,
 				783DC52B27185745003C4DA4 /* AmountComponent */,
 				2F1CB0A92715BEFC008680A7 /* MultiLineTextComponent */,
@@ -257,6 +262,15 @@
 				2F1CB0AC2715BF27008680A7 /* MultiLineTextComponentView.swift */,
 			);
 			path = MultiLineTextComponent;
+			sourceTree = "<group>";
+		};
+		7810EC57271DC3A700F5A8A0 /* AsyncComponent */ = {
+			isa = PBXGroup;
+			children = (
+				7810EC58271DC3CF00F5A8A0 /* AsynchComponent.swift */,
+				7810EC5A271DC48400F5A8A0 /* AsyncComponentView.swift */,
+			);
+			path = AsyncComponent;
 			sourceTree = "<group>";
 		};
 		783DC52B27185745003C4DA4 /* AmountComponent */ = {
@@ -437,11 +451,13 @@
 				2F1CB04A27135423008680A7 /* AppDelegate.swift in Sources */,
 				2F1CB09C271546CF008680A7 /* TitleComponent.swift in Sources */,
 				2F1CB0822713924D008680A7 /* AlchemistLiteManager.swift in Sources */,
+				7810EC5B271DC48400F5A8A0 /* AsyncComponentView.swift in Sources */,
 				783B03A42719F30600C35B8D /* AlchemistLiteEventManager.swift in Sources */,
 				2F1CB09E27154D9A008680A7 /* TitleComponentView.swift in Sources */,
 				2F1CB0AB2715BF1A008680A7 /* MultiLineTextComponent.swift in Sources */,
 				783DC53427185949003C4DA4 /* AmountComponentViewModel.swift in Sources */,
 				2F1CB07B27135452008680A7 /* BEComponent.swift in Sources */,
+				7810EC59271DC3CF00F5A8A0 /* AsynchComponent.swift in Sources */,
 				2F1CB04C27135423008680A7 /* SceneDelegate.swift in Sources */,
 				2F1CB0882713CE23008680A7 /* AlchemistLiteRegistration.swift in Sources */,
 				783DC53927186857003C4DA4 /* TipsComponentView.swift in Sources */,

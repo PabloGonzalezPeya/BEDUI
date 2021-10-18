@@ -1,5 +1,10 @@
 [
     {
+        "id": "dummy",
+        "type": "asyncDummy",
+        "content": {}
+    },
+    {
         "id": "sampleImagesTop",
         "type": "imageCarrousel",
         "content": {

@@ -35,6 +35,13 @@ class SDUITestViewController: UIViewController {
         AlchemistLiteManager.registerComponent(AlchemistLiteRegistration(type: TipsComponent.componentType, onInitialization: { config in
             return try? TipsComponent(config: config)
         }))
+
+        AlchemistLiteManager.registerComponent(AlchemistLiteRegistration(type: AsynchComponent.componentType, onInitialization: { config in
+            return try? AsynchComponent(config: config)
+        }))
+
+
+        //asyncDummy
         
         
         //2 - Obtain a broker
@@ -54,9 +61,9 @@ class SDUITestViewController: UIViewController {
         //4 - Ask broker to process json from any source we want
         broker.load(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
         
-//        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
-//            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
-//        }
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
+            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
+        }
     }
     
     func handleViewAnimation(forViews views: [UIView]) {
