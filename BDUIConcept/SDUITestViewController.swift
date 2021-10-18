@@ -49,10 +49,10 @@ class SDUITestViewController: UIViewController {
             }
         }
         
-        broker.load()
+        broker.load(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
         
 //        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
-//            self?.broker.load2()
+//            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
 //        }
     }
     

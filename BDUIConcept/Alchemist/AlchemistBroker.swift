@@ -14,34 +14,28 @@ class AlchemistLiteBroker {
     
     /// Notifies subscriber of the status of obtaining or refreshing views
     var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)?
-    
-    func load() {
-        guard let bundlePath = Bundle.main.path(forResource: "SDUIInitialDraft", ofType: "json"),
-              let jsonData = try? String(contentsOfFile: bundlePath).data(using: .utf8),
-              let deserialized = try? JSONDecoder().decode([BEComponent].self, from: jsonData) else {
-                  onUpdatedViews?(.failure(.responseDeserialization))
-                  return
-        }
-        
-        handleUpdatedResults(updated: deserialized)
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.onUpdatedViews?(.success(self.currentSessionComponents.map({
-                return AlchemistLiteModelResult(id: $0.id, view: $0.getView())
-            })))
+
+    func load(_ loadType: LoadType) {
+        switch loadType {
+        case .fromLocalFile(let name, let bundle):
+            handleLoadFromResource(name: name, bundle: bundle)
+        case .fomUrl(let url):
+            fatalError()
+        case .fromProvidedComponents(let components):
+            fatalError()
         }
     }
-    
-    func load2() {
-        guard let bundlePath = Bundle.main.path(forResource: "SDUISecondDraft", ofType: "json"),
+
+    private func handleLoadFromResource(name: String, bundle: Bundle) {
+        guard let bundlePath = bundle.path(forResource: name, ofType: "json"),
               let jsonData = try? String(contentsOfFile: bundlePath).data(using: .utf8),
               let deserialized = try? JSONDecoder().decode([BEComponent].self, from: jsonData) else {
                   onUpdatedViews?(.failure(.responseDeserialization))
                   return
-        }
-        
+              }
+
         handleUpdatedResults(updated: deserialized)
+
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.onUpdatedViews?(.success(self.currentSessionComponents.map({
