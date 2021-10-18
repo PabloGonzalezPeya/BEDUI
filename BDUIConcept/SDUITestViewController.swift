@@ -37,9 +37,10 @@ class SDUITestViewController: UIViewController {
         }))
         
         
-        //2 - Obtain a broker - Probably with params in order to set the endpoint to be called. TBD
+        //2 - Obtain a broker
         broker = AlchemistLiteManager.shared.getViewBroker()
-        
+
+        //3 - Subscribe to updates
         broker.onUpdatedViews = { [weak self] result in
             switch result {
             case .success(let alchemistModel):
@@ -48,7 +49,8 @@ class SDUITestViewController: UIViewController {
                 print(error)
             }
         }
-        
+
+        //4 - Ask broker to process json from any source we want
         broker.load(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
         
 //        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
