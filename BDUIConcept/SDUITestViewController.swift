@@ -39,16 +39,20 @@ class SDUITestViewController: UIViewController {
         AlchemistLiteManager.registerComponent(AlchemistLiteRegistration(type: AsynchComponent.componentType, onInitialization: { config in
             return try? AsynchComponent(config: config)
         }))
-
-
-        //asyncDummy
-        
         
         //2 - Obtain a broker
         broker = AlchemistLiteManager.shared.getViewBroker()
 
-        //3 - Subscribe to updates
-        broker.onUpdatedViews = { [weak self] result in
+        //3 - Ask broker to process json from any source we want
+        updateViews(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
+            self?.updateViews2(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
+        }
+    }
+
+    private func updateViews(_ loadType: AlchemistLiteBroker.LoadType) {
+        broker.load(loadType) { [weak self] result in
             switch result {
             case .success(let alchemistModel):
                 print(alchemistModel)
@@ -57,12 +61,16 @@ class SDUITestViewController: UIViewController {
                 print(error)
             }
         }
+    }
 
-        //4 - Ask broker to process json from any source we want
-        broker.load(.fromLocalFile(name: "SDUIInitialDraft", bundle: Bundle.main))
-        
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 10) { [weak self] in
-            self?.broker.load(.fromLocalFile(name: "SDUISecondDraft", bundle: Bundle.main))
+    private func updateViews2(_ loadType: AlchemistLiteBroker.LoadType) {
+        broker.load(loadType) { result in
+            switch result {
+            case .success(let alchemistModel):
+                print(alchemistModel)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -89,9 +97,9 @@ class SDUITestViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
-//            self?.dismiss(animated: true, completion: nil)
-//        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     deinit {

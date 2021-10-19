@@ -8,22 +8,20 @@
 import Foundation
 import UIKit
 
+public typealias AlchemistLiteUpdates = (Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void
+
 public protocol AlchemistLiteBrokerProtocol {
-    var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)? { get }
-    func load(_ loadType: AlchemistLiteBroker.LoadType)
+    func load(_ loadType: AlchemistLiteBroker.LoadType, completion: @escaping AlchemistLiteUpdates)
 }
 
 public final class AlchemistLiteBroker: AlchemistLiteBrokerProtocol {
     private var currentSessionComponents = [AlchemistLiteUIComponentProtocol]()
     private let notificationName: String = "AlchemistLiteEvent_\(UUID().uuidString)"
-    
-    /// Notifies subscriber of the status of obtaining or refreshing views
-    public var onUpdatedViews: ((Result<[AlchemistLiteModelResult], AlchemistLiteError>) -> Void)?
 
-    public func load(_ loadType: LoadType) {
+    public func load(_ loadType: LoadType, completion: @escaping AlchemistLiteUpdates) {
         switch loadType {
         case .fromLocalFile(let name, let bundle):
-            handleLoadFromResource(name: name, bundle: bundle)
+            handleLoadFromResource(name: name, bundle: bundle, completion: completion)
         case .fomUrl(let url):
             fatalError()
         case .fromProvidedComponents(let components):
@@ -31,19 +29,18 @@ public final class AlchemistLiteBroker: AlchemistLiteBrokerProtocol {
         }
     }
 
-    private func handleLoadFromResource(name: String, bundle: Bundle) {
+    private func handleLoadFromResource(name: String, bundle: Bundle, completion: @escaping AlchemistLiteUpdates) {
         guard let bundlePath = bundle.path(forResource: name, ofType: "json"),
               let jsonData = try? String(contentsOfFile: bundlePath).data(using: .utf8),
               let deserialized = try? JSONDecoder().decode([BEComponent].self, from: jsonData) else {
-                  onUpdatedViews?(.failure(.responseDeserialization))
+                  completion(.failure(.responseDeserialization))
                   return
               }
 
         handleUpdatedResults(updated: deserialized)
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.onUpdatedViews?(.success(self.currentSessionComponents.map({
+        DispatchQueue.main.async {
+            completion(.success(self.currentSessionComponents.map({
                 return AlchemistLiteModelResult(id: $0.id, view: $0.getView())
             })))
         }

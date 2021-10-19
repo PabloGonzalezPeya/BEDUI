@@ -7,12 +7,12 @@
 
 import Foundation
 
-class AlchemistLiteNotificationHandler {
+public class AlchemistLiteNotificationHandler {
     private let notificationCenter: NotificationCenter
     private let name: String
     var onNotificationReceived: ((AlchemistLiteNotification) -> Void)?
 
-    init(name: String,
+    public init(name: String,
          notificationCenter: NotificationCenter = .default) {
         self.notificationCenter = notificationCenter
         self.name = name
