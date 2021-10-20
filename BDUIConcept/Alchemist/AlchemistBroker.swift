@@ -108,7 +108,7 @@ public extension AlchemistLiteBroker {
         case fomUrl(url: URL)
         
         // If using a mixed response, just provide those BE components for evaluation.
-        case fromProvidedComponents(components: BEComponent)
+        case fromProvidedComponents(components: [BEComponent])
     }
 }
 
