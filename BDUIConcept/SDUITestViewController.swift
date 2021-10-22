@@ -118,9 +118,9 @@ class SDUITestViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20) { [weak self] in
+//            self?.dismiss(animated: true, completion: nil)
+//        }
     }
     
     deinit {

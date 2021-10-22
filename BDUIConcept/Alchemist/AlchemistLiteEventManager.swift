@@ -37,17 +37,17 @@ class AlchemistLiteEventManager {
     }
 
     func triggerEvent(trigger: AlchemistLiteTrigger, forId identifier: Int) {
+        // TODO: Add tracking instance
+        if let trackingEvents = trackingEvents,
+           let event = trackingEvents.filter({$0.trigger == trigger && $0.targetId == identifier}).first {
+            print("Tracking Event \(event)")
+        }
+
         if let eventConfig = eventConfiguration,
            let events = eventConfig.events,
            let event = events.filter({$0.targetId == identifier && $0.trigger == trigger}).first {
             notificationHandler.broadcastNotification(notification: AlchemistLiteNotification(id: event.eventType,
                                                                                               data: event.eventBody))
-        }
-
-        // TODO: Add tracking instance
-        if let trackingEvents = trackingEvents,
-           let event = trackingEvents.filter({$0.trigger == trigger && $0.targetId == identifier}).first {
-            print("Tracking Event \(event)")
         }
 
         // TODO: Handle Actions
